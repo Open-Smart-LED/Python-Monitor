@@ -1,0 +1,35 @@
+import requests
+from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+def meteo_setup():
+    load_dotenv()
+    API_KEY = os.getenv("API_METEO")
+    VILLE = os.getenv("LOCATION")
+    UNITS = os.getenv("UNITS")
+    URL = f"http://api.openweathermap.org/data/2.5/weather?q={VILLE}&appid={API_KEY}&units={UNITS}&lang=en"
+    return (URL)
+
+def get_weather():
+    URL = meteo_setup()
+    try:
+        response = requests.get(URL)
+        response.raise_for_status()  # Vérifie les erreurs HTTP
+        data = response.json()
+        
+        temperature = data["main"]["temp"]
+        description = data["weather"][0]["description"]
+        sunrise = datetime.fromtimestamp(data["sys"]["sunrise"]).strftime("%H:%M")
+        sunset = datetime.fromtimestamp(data["sys"]["sunset"]).strftime("%H:%M")
+        cloud = data["clouds"]["all"]
+
+        print(f"[{'\033[32m'}OK{'\033[0m'}] - meteo check")
+        return(description, cloud, temperature, sunrise, sunset)
+
+    except requests.exceptions.RequestException as e:
+        print("[{'\033[31m'}FAILL{'\033[0m'}] - meteo check : ", e)
+        return(e)
+
+get_weather()
+
