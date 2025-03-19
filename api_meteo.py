@@ -28,7 +28,7 @@ def get_weather():
         return(description, cloud, temperature, sunrise, sunset)
 
     except requests.exceptions.RequestException as e:
-        print("[{'\033[31m'}FAILL{'\033[0m'}] - meteo check : ", e)
+        print(f"[{'\033[31m'}FAIL{'\033[0m'}] - meteo check : ", e)
         return(e)
 
 get_weather()

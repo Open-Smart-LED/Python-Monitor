@@ -1,24 +1,30 @@
 import time
 from api_meteo import get_weather
 import socket
-esp_ip = "192.168.4.1"
-port = 2025
+from dotenv import load_dotenv
+import os
+
+# Load values from .env file
+load_dotenv()
+ESP_IP = os.getenv("ESP_IP")
+PORT = int(os.getenv("ESP_PORT"))
+
+# Set default values
 end = "not"
 
+# First connection to ESP32
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((esp_ip, port))
-print(f"Connecté à l'ESP32 ({esp_ip}:{port})")
-message = "Hello ESP32!\n"  # On ajoute '\n' car l'ESP attend une fin de ligne
+sock.connect((ESP_IP, PORT))
+print(f"[{'\033[32m'}OK{'\033[0m'}] - connection configuration")
+message = "ping\n"  # On ajoute '\n' car l'ESP attend une fin de ligne
 sock.sendall(message.encode())  # Envoie en binaire
 
-print(f"Message envoyé: {message}")
+response = sock.recv(1024).decode().strip()
+if response == "ping":
+    print(f"[{'\033[32m'}OK{'\033[0m'}] - connection to esp")
+    sock.close()
 
-# Fermeture de la connexion
-sock.close()
-
-def check_meteo():
-    get_weather
-
+# Main
 while end == "not" :
-    check_meteo
+    get_weather
     time.sleep(5)
