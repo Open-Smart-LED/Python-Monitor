@@ -25,6 +25,7 @@ def get_weather():
         cloud = data["clouds"]["all"]
 
         print(f"[{'\033[32m'}OK{'\033[0m'}] - meteo check")
+        print(f"[{'\033[34m'}INFO{'\033[0m'}] - ", description,",", cloud,",", temperature,",", sunrise,",", sunset)
         return(description, cloud, temperature, sunrise, sunset)
 
     except requests.exceptions.RequestException as e:
