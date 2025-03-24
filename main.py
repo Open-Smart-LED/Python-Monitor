@@ -10,9 +10,15 @@ load_dotenv()
 ESP_IP = os.getenv("ESP_IP")
 PORT = int(os.getenv("ESP_PORT"))
 NB_LED = int(os.getenv("NB_LED"))
+CONFIG_STATE = os.getenv("CONFIG_STATE")
 
 # Set default values
 end = "not"
+
+# Verifie .env configuration
+if CONFIG_STATE != "Finish":
+    print(f"[{'\033[31m'}FAIL{'\033[0m'}] - File .env is not configure")
+    exit()
 
 # Setup connection to ESP32
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
