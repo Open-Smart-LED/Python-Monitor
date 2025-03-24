@@ -30,4 +30,4 @@ def get_weather():
 
     except requests.exceptions.RequestException as e:
         print(f"[{'\033[31m'}FAIL{'\033[0m'}] - meteo check : ", e)
-        exit()
+        return(None)
