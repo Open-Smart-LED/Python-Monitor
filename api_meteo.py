@@ -19,15 +19,17 @@ def get_weather():
         data = response.json()
         
         temperature = data["main"]["temp"]
-        description = data["weather"][0]["description"]
-        sunrise = datetime.fromtimestamp(data["sys"]["sunrise"]).strftime("%H:%M")
-        sunset = datetime.fromtimestamp(data["sys"]["sunset"]).strftime("%H:%M")
+        #description = data["weather"][0]["description"] Utile ?
+        sunrise =  data["sys"]["sunrise"]
+        sunset = data["sys"]["sunset"]
         cloud = data["clouds"]["all"]
 
         print(f"[{'\033[32m'}OK{'\033[0m'}] - meteo check")
-        print(f"[{'\033[34m'}INFO{'\033[0m'}] - ", description,",", cloud,",", temperature,",", sunrise,",", sunset)
-        return(description, cloud, temperature, sunrise, sunset)
+        print(f"[{'\033[34m'}INFO{'\033[0m'}] - ", cloud,",", temperature,",", sunrise,",", sunset)
+        return(cloud, temperature, sunrise, sunset)
 
     except requests.exceptions.RequestException as e:
         print(f"[{'\033[31m'}FAIL{'\033[0m'}] - meteo check : ", e)
         return(None)
+    
+get_weather()

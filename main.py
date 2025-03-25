@@ -33,8 +33,8 @@ if response == "setup":
 while True :
     meteo = get_weather()
     if meteo is not None:
-        description, cloud, temperature, sunrise, sunset = meteo
-        result = algo_adaptation(description, cloud, temperature, sunrise, sunset)
+        cloud, temperature, sunrise, sunset = meteo
+        result = algo_adaptation(cloud, temperature, sunrise, sunset)
         print(f"[{'\033[34m'}INFO{'\033[0m'}] - color result : ", result)
         if sock:
             sock.close()  # Fermer proprement l'ancien socket
