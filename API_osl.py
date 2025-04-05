@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
+from api_meteo import get_weather
+from algo_adaptation import algo_adaptation
 
 ########## Load values from .env file ##########
 load_dotenv()
@@ -23,11 +25,16 @@ class Item(BaseModel): # Modèle de données
     price: float
     in_stock: bool = True
 
+class ESP(BaseModel): # Modèle de données
+    name: str
+    ip: str
+    user: str
+
 
 ########## API Routes ###########
 @app.get("/")
 def read_root():
-    return {"message": "Bienvenue dans ton API 🚀"}
+    return {"message": "Welcome on OpenSmartLED !"}
 
 @app.get("/version/")
 def get_version():
@@ -37,6 +44,23 @@ def get_version():
 def get_led():
     return {"LEDs": NB_LED}
 
-@app.post("/items/")
+@app.get("/test/")
+def get_test():
+    main()
+    return {"TEST": "fait"}
+
+@app.post("/addesp/")
+def create_esp(item: ESP):
+    return {"check": "ok"}
+
+'''@app.post("/items/")
 def create_item(item: Item):
-    return {"message": f"Objet '{item.name}' enregistré avec succès.", "data": item}
+    return {"message": f"Objet '{item.name}' enregistré avec succès.", "data": item}'''
+
+def main():
+    meteo = get_weather()
+    if meteo is not None:
+        cloud, temperature, sunrise, sunset = meteo
+        result = algo_adaptation(cloud, temperature, sunrise, sunset)
+        print(f"[{'\033[34m'}INFO{'\033[0m'}] - color result : ", result)
+        print(f"[{'\033[32m'}OK{'\033[0m'}] - result sent")
