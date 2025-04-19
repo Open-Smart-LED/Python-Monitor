@@ -1,0 +1,16 @@
+#ifndef SECRETS_H
+#define SECRETS_H
+
+const char* jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAxQzA3QjBCODY1RTQiLCJleHAiOjE3NDQ5MjYwODh9._jMtYEyTdFWAp1rQpv3kbbpJA_As6cPUJaBL4LGH2UM";
+
+#endif#ifndef SECRETS_H
+#define SECRETS_H
+
+const char* jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAxQzA3QjBCODY1RTQiLCJleHAiOjE3NDQ5MjYyNzR9.m7dkje5mFoRGD57XydViDzO6tmF26X59gIvnIsUfYWQ";
+
+#endif#ifndef SECRETS_H
+#define SECRETS_H
+
+const char* jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMDAxQzA3QjBCODY1RTQiLCJleHAiOjE3NDQ5MjY5ODN9.UNwMsdCXNJ-1lD5J0DjhRenbN8SjLo2V5dFScbJJukg";
+
+#endif
