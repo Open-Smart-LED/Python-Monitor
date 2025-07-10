@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - API_METEO=${API_METEO}
+      - NB_LED=${NB_LED:-54}
+      - GPIO_LED=${GPIO_LED:-13}
+      - LOCATION=${LOCATION:-Paris}
+      - UNITS=${UNITS:-metric}
+      - CONFIG_STATE=Finish
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./database.json:/app/database.json
+    restart: unless-stopped
+    
+  # Base de données PostgreSQL pour la production
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=smartled
+      - POSTGRES_USER=smartled
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Proxy nginx pour la production
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
